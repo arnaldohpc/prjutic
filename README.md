@@ -1,2 +1,2 @@
 # prjutic
-Proyecto Básico con fines educativos.
+CRUD desarrollado con wxPython
