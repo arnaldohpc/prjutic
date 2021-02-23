@@ -46,7 +46,7 @@ class Query(object):
             cursor.close()
             self.conn.close()
         except (Exception, psycopg2.DatabaseError) as msgtext:
-            logtext = "%s - No se puede Cerrar la Conexión de la BD\n" % (
+            logtext = "%s - No se puede Cerrar la Conexión de la BD\n%s" % (
                 lognow,
                 str(msgtext),
             )
@@ -68,11 +68,7 @@ class Query(object):
         self.conectar()
         cursor = self.conn.cursor()
         sqluser = """select * from usuario where usuario = '%s';""" % (user)
-        # try:
         cursor.execute(sqluser)
-        # except:
-        #   self.conn.rollback()
-        #   cursor.execute(sqlius, user)
         result = cursor.fetchall()
         self.CerraConexion(cursor)
         return result
