@@ -2,7 +2,7 @@
 
 import wx
 import wx.xrc
-from apps import menu
+from apps import dbmanage, menu
 
 
 # Class LoginFrame
@@ -96,17 +96,18 @@ class LoginFrame(wx.Frame):
         self.Centre(wx.BOTH)
 
         # Instancias Objetos para trabajar con Metodos Guardados
-        # self.dbmng = cr_querybd.Querys()
-        # self.funciones = cr_funciones.Funciones()
+        self.dbmng = dbmanage.Query()
+        # self.functions = funtions.Functions()
         # Eventos
         self.btnCancel.Bind(wx.EVT_BUTTON, self.ClickCancel)
         self.btnOk.Bind(wx.EVT_BUTTON, self.ClickOk)
 
     def ComparaPass(self, user):
-        # self.usuario = self.dbmng.SelectUser(user)
-        self.usuario = "admin"
+        self.usuario = self.dbmng.SelectUser(user)
         if self.usuario:
-            if self.usuario == str(self.pwd.GetValue()):
+            print(type(self.usuario[0][2]))
+            print(type(str(self.pwd.GetValue())))
+            if self.usuario[0][2] == str(self.pwd.GetValue()):
                 # nivel = self.usuario[0][4]
                 # self.frame = menu.MenuFrame(None, nivel, user)
                 self.frame = menu.MenuFrame(None)
@@ -123,8 +124,8 @@ class LoginFrame(wx.Frame):
                 if result == wx.ID_OK:
                     pass
                 # self.user.SetValue('')
-                # self.pwd.SetValue('')
-                # self.user.SetFocus()
+                self.pwd.SetValue("")
+                self.user.SetFocus()
         else:
             error = wx.MessageDialog(
                 self,
@@ -136,8 +137,8 @@ class LoginFrame(wx.Frame):
             if result == wx.ID_OK:
                 pass
             # self.user.SetValue('')
-            # self.pwd.SetValue('')
-            # self.user.SetFocus()
+            self.pwd.SetValue("")
+            self.user.SetFocus()
 
     def ClickOk(self, evt):
         self.ComparaPass(str(self.user.GetValue()))

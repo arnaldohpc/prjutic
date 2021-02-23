@@ -2,9 +2,6 @@
 
 import wx
 import psycopg2
-from wx.core import Port
-
-# from config import config
 from apps import functions
 
 
@@ -19,10 +16,7 @@ class Query(object):
         lognow = self.functions.now_txt()
         self.conn = None
         try:
-            # Lectura de los parámetros de conexion
-            # params = config()
             # Conexion al servidor de PostgreSQL
-            # self.conn = psycopg2.connect(**params)
             self.conn = psycopg2.connect(
                 host="192.168.100.36",
                 port="5432",
