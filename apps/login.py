@@ -105,9 +105,7 @@ class LoginFrame(wx.Frame):
     def ComparaPass(self, user):
         self.usuario = self.dbmng.SelectUser(user)
         if self.usuario:
-            print(type(self.usuario[0][2]))
-            print(type(str(self.pwd.GetValue())))
-            if self.usuario[0][2] == str(self.pwd.GetValue()):
+            if self.usuario[0][2].strip() == self.pwd.GetValue():
                 # nivel = self.usuario[0][4]
                 # self.frame = menu.MenuFrame(None, nivel, user)
                 self.frame = menu.MenuFrame(None)
