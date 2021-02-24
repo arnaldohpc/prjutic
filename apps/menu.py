@@ -176,5 +176,12 @@ class MenuFrame(wx.Frame):
 
         self.Centre(wx.BOTH)
 
+        # Eventos
+        self.Bind(wx.EVT_MENU, self.OnClosed, id=self.iExit.GetId())
+
+    def OnClosed(self, evt):
+        self.Destroy()
+        evt.Skip()
+
     def __del__(self):
         pass
