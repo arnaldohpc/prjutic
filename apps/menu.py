@@ -2,13 +2,13 @@
 
 import wx
 import wx.xrc
-
+from apps import functions
 
 # Class MenuFrame
 
 
 class MenuFrame(wx.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, user):
         wx.Frame.__init__(
             self,
             parent,
@@ -18,6 +18,13 @@ class MenuFrame(wx.Frame):
             size=wx.Size(1020, 750),
             style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL,
         )
+        # Operador
+        self.operador = user
+        # Permite setear la variable local para la aplicacion en Espanhol
+        self.a = wx.Locale(wx.LANGUAGE_SPANISH)
+        self.Maximize(True)
+        # Instanciamos el Objeto Funciones para trabajar Metodos Guardados
+        self.functions = functions.Functions()
 
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
         self.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
@@ -155,7 +162,7 @@ class MenuFrame(wx.Frame):
             self,
             wx.ID_ANY,
             wx.Bitmap(
-                u"image.png",
+                self.functions.opj(u"./apps/image.png"),
                 wx.BITMAP_TYPE_ANY,
             ),
             wx.DefaultPosition,

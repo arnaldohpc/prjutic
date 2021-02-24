@@ -18,7 +18,7 @@ class Query(object):
         try:
             # Conexion al servidor de PostgreSQL
             self.conn = psycopg2.connect(
-                host="192.168.100.36",
+                host="srvlnxdb",
                 port="5432",
                 database="prjutic",
                 user="admin",

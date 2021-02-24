@@ -108,7 +108,7 @@ class LoginFrame(wx.Frame):
             if self.usuario[0][2].strip() == self.pwd.GetValue():
                 # nivel = self.usuario[0][4]
                 # self.frame = menu.MenuFrame(None, nivel, user)
-                self.frame = menu.MenuFrame(None)
+                self.frame = menu.MenuFrame(None, self.usuario[0][1].strip())
                 self.Destroy()
                 self.frame.Show()
             else:
