@@ -3,6 +3,20 @@
 import wx
 import wx.xrc
 from apps import functions
+from apps.hr import department, employee, position, profile, section
+from apps.sales import client, sale, tax
+from apps.supplies import provider, supply
+from apps.warehousemng import (
+    color,
+    line,
+    material,
+    office,
+    size,
+    subline,
+    typepro,
+    unitmt,
+    warehouse,
+)
 
 # Class MenuFrame
 
@@ -177,7 +191,12 @@ class MenuFrame(wx.Frame):
         self.Centre(wx.BOTH)
 
         # Eventos
+        self.Bind(wx.EVT_MENU, self.OnDepartment, id=self.iDepartament.GetId())
         self.Bind(wx.EVT_MENU, self.OnClosed, id=self.iExit.GetId())
+
+    def OnDepartment(self, evt):
+        self.clframe = department.DepartmentFrame(self, "0", self.operador)
+        self.clframe.Show(True)
 
     def OnClosed(self, evt):
         self.Destroy()
