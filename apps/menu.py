@@ -22,7 +22,7 @@ from apps.warehousemng import (
 
 
 class MenuFrame(wx.Frame):
-    def __init__(self, parent, user):
+    def __init__(self, parent, user, profile):
         wx.Frame.__init__(
             self,
             parent,
@@ -34,6 +34,7 @@ class MenuFrame(wx.Frame):
         )
         # Operador
         self.operador = user
+        self.
         # Permite setear la variable local para la aplicacion en Espanhol
         self.a = wx.Locale(wx.LANGUAGE_SPANISH)
         self.Maximize(True)
@@ -191,14 +192,14 @@ class MenuFrame(wx.Frame):
         self.Centre(wx.BOTH)
 
         # Eventos
-        self.Bind(wx.EVT_MENU, self.OnDepartment, id=self.iDepartament.GetId())
-        self.Bind(wx.EVT_MENU, self.OnClosed, id=self.iExit.GetId())
+        self.Bind(wx.EVT_MENU, self.on_department, id=self.iDepartament.GetId())
+        self.Bind(wx.EVT_MENU, self.on_closed, id=self.iExit.GetId())
 
-    def OnDepartment(self, evt):
-        self.clframe = department.DepartmentFrame(self, "0", self.operador)
+    def on_department(self, evt):
+        self.clframe = department.DepartmentFrame(self)
         self.clframe.Show(True)
 
-    def OnClosed(self, evt):
+    def on_closed(self, evt):
         self.Destroy()
         evt.Skip()
 

@@ -20,7 +20,7 @@ class DepartmentFrame(wx.Frame):
             style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL,
         )
 
-        self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
+        self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 
         bSizer1 = wx.BoxSizer(wx.VERTICAL)
 
@@ -44,7 +44,7 @@ class DepartmentFrame(wx.Frame):
             wx.TE_RIGHT,
         )
         self.code.SetMaxLength(0)
-        self.code.Enable(False)
+        self.code.Enable(True)
 
         fgSizer1.Add(self.code, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
 
@@ -68,9 +68,10 @@ class DepartmentFrame(wx.Frame):
             wx.TE_LEFT,
         )
         self.name.SetMaxLength(0)
+        self.name.Enable(False)
         fgSizer1.Add(self.name, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
 
-        bSizer1.Add(fgSizer1, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        bSizer1.Add(fgSizer1, 0, wx.ALL, 5)
 
         fgSizer2 = wx.FlexGridSizer(1, 4, 0, 0)
         fgSizer2.SetFlexibleDirection(wx.BOTH)
@@ -117,12 +118,18 @@ class DepartmentFrame(wx.Frame):
         self.Layout()
 
         self.Centre(wx.BOTH)
+
         # Eventos
-        self.Bind(wx.EVT_MENU, self.OnClosed, id=self.iExit.GetId())
+        self.btnExit.Bind(wx.EVT_BUTTON, self.OnClosed)
 
     def OnClosed(self, evt):
+        self.OnClearFields()
         self.Destroy()
         evt.Skip()
+
+    def OnClearFields(self):
+        self.code.SetValue("")
+        self.name.SetValue("")
 
     def __del__(self):
         pass

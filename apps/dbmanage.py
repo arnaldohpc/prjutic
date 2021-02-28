@@ -11,7 +11,7 @@ class Query(object):
         # Constructor
         self.functions = functions.Functions()
 
-    def conectar(self):
+    def on_conect(self):
         logtxt = open("log.txt", "a")
         lognow = self.functions.now_txt()
         self.conn = None
@@ -39,7 +39,7 @@ class Query(object):
                 pass
         logtxt.close()
 
-    def CerraConexion(self, cursor):
+    def close_conect(self, cursor):
         logtxt = open("log.txt", "a")
         lognow = self.functions.now_txt()
         try:
@@ -64,13 +64,13 @@ class Query(object):
                 pass
         logtxt.close()
 
-    def SelectUser(self, user):
-        self.conectar()
+    def select_user(self, user):
+        self.on_conect()
         cursor = self.conn.cursor()
         sqluser = """select * from usuario where usuario = '%s';""" % (user)
         cursor.execute(sqluser)
         result = cursor.fetchall()
-        self.CerraConexion(cursor)
+        self.close_conect(cursor)
         return result
 
     def __del__(self):

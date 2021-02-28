@@ -99,48 +99,64 @@ class LoginFrame(wx.Frame):
         self.dbmng = dbmanage.Query()
         # self.functions = funtions.Functions()
         # Eventos
-        self.btnCancel.Bind(wx.EVT_BUTTON, self.ClickCancel)
-        self.btnOk.Bind(wx.EVT_BUTTON, self.ClickOk)
+        self.btnCancel.Bind(wx.EVT_BUTTON, self.click_cancel)
+        self.btnOk.Bind(wx.EVT_BUTTON, self.click_ok)
 
-    def ComparaPass(self, user):
-        self.usuario = self.dbmng.SelectUser(user)
-        if self.usuario:
-            if self.usuario[0][2].strip() == self.pwd.GetValue():
-                self.frame = menu.MenuFrame(None, self.usuario[0][1].strip())
-                self.Destroy()
-                self.frame.Show()
+    def on_check_user(self, user):
+        self.selectuser = self.dbmng.select_user(user)
+        if self.selectuser:
+            if self.selectuser[0][5] == True and self.selectuser[0][4] == True:
+                if self.selectuser[0][2].strip() == self.pwd.GetValue():
+                    self.frame = menu.MenuFrame(
+                        None, self.selectuser[0][1].strip(), self.selectuser[0][3]
+                    )
+                    self.Destroy()
+                    self.frame.Show()
+                else:
+                    error = wx.MessageDialog(
+                        self,
+                        u"El usuario o Contraseña no corresponde.",
+                        "Error de Login",
+                        wx.OK | wx.ICON_HAND,
+                    )
+                    result = error.ShowModal()
+                    if result == wx.ID_OK:
+                        pass
+                    self.user.SetValue("")
+                    self.pwd.SetValue("")
+                    self.user.SetFocus()
             else:
                 error = wx.MessageDialog(
                     self,
-                    u"El usuario o Contraseña no corresponde.",
+                    u"El usuario no esta activo.",
                     "Error de Login",
                     wx.OK | wx.ICON_HAND,
                 )
                 result = error.ShowModal()
                 if result == wx.ID_OK:
                     pass
-                # self.user.SetValue('')
+                self.user.SetValue("")
                 self.pwd.SetValue("")
                 self.user.SetFocus()
         else:
             error = wx.MessageDialog(
                 self,
-                u"El usuario o Contraseña no corresponde.",
+                u"Usuario no encontrado",
                 "Error de Login",
                 wx.OK | wx.ICON_HAND,
             )
             result = error.ShowModal()
             if result == wx.ID_OK:
                 pass
-            # self.user.SetValue('')
+            self.user.SetValue("")
             self.pwd.SetValue("")
             self.user.SetFocus()
 
-    def ClickOk(self, evt):
-        self.ComparaPass(str(self.user.GetValue()))
+    def click_ok(self, evt):
+        self.on_check_user(str(self.user.GetValue()))
         evt.Skip()
 
-    def ClickCancel(self, evt):
+    def click_cancel(self, evt):
         self.Destroy()
         evt.Skip()
 
