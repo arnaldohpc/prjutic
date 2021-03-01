@@ -356,5 +356,9 @@ class ClientFrame(wx.Frame):
 
         self.Centre(wx.BOTH)
 
+    def on_closed(self, evt):
+        self.Destroy()
+        evt.Skip()
+
     def __del__(self):
         pass

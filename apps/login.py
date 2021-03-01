@@ -30,12 +30,12 @@ class LoginFrame(wx.Frame):
         fgSizer1.SetFlexibleDirection(wx.BOTH)
         fgSizer1.SetNonFlexibleGrowMode(wx.FLEX_GROWMODE_SPECIFIED)
 
-        self.txtUser = wx.StaticText(
+        self.txtuser = wx.StaticText(
             self, wx.ID_ANY, u"Usuario: ", wx.DefaultPosition, wx.DefaultSize, 0
         )
-        self.txtUser.Wrap(-1)
+        self.txtuser.Wrap(-1)
         fgSizer1.Add(
-            self.txtUser,
+            self.txtuser,
             0,
             wx.ALL | wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL,
             5,
@@ -52,11 +52,11 @@ class LoginFrame(wx.Frame):
             5,
         )
 
-        self.txtPwd = wx.StaticText(
+        self.txtpwd = wx.StaticText(
             self, wx.ID_ANY, u"Contraseña: ", wx.DefaultPosition, wx.DefaultSize, 0
         )
-        self.txtPwd.Wrap(-1)
-        fgSizer1.Add(self.txtPwd, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
+        self.txtpwd.Wrap(-1)
+        fgSizer1.Add(self.txtpwd, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
 
         self.pwd = wx.TextCtrl(
             self,
@@ -75,18 +75,18 @@ class LoginFrame(wx.Frame):
 
         bSizer3 = wx.BoxSizer(wx.HORIZONTAL)
 
-        self.btnOk = wx.Button(
+        self.btn_ok = wx.Button(
             self, wx.ID_ANY, u"Aceptar", wx.DefaultPosition, wx.DefaultSize, 0
         )
-        self.btnOk.SetDefault()
-        self.btnOk.Enable(True)
+        self.btn_ok.SetDefault()
+        self.btn_ok.Enable(True)
 
-        bSizer3.Add(self.btnOk, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
+        bSizer3.Add(self.btn_ok, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
 
-        self.btnCancel = wx.Button(
+        self.btn_cancel = wx.Button(
             self, wx.ID_ANY, u"Cancelar", wx.DefaultPosition, wx.DefaultSize, 0
         )
-        bSizer3.Add(self.btnCancel, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
+        bSizer3.Add(self.btn_cancel, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
 
         bSizer1.Add(bSizer3, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, 5)
 
@@ -99,13 +99,13 @@ class LoginFrame(wx.Frame):
         self.dbmng = dbmanage.Query()
         # self.functions = funtions.Functions()
         # Eventos
-        self.btnCancel.Bind(wx.EVT_BUTTON, self.click_cancel)
-        self.btnOk.Bind(wx.EVT_BUTTON, self.click_ok)
+        self.btn_cancel.Bind(wx.EVT_BUTTON, self.click_cancel)
+        self.btn_ok.Bind(wx.EVT_BUTTON, self.click_ok)
 
     def on_check_user(self, user):
         self.selectuser = self.dbmng.select_user(user)
         if self.selectuser:
-            if self.selectuser[0][5] == True and self.selectuser[0][4] == True:
+            if self.selectuser[0][5] is True and self.selectuser[0][4] is True:
                 if self.selectuser[0][2].strip() == self.pwd.GetValue():
                     self.frame = menu.MenuFrame(
                         None, self.selectuser[0][1].strip(), self.selectuser[0][3]
