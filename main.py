@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 import wx
 from apps import login
 

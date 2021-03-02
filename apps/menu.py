@@ -32,14 +32,15 @@ class MenuFrame(wx.Frame):
             size=wx.Size(1020, 750),
             style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL,
         )
-        # User and Profile
-        # self.user_operator = user_operator
-        # self.user_profile = user_profile
+
         # Permite setear la variable local para la aplicacion en Espanhol
         self.a = wx.Locale(wx.LANGUAGE_SPANISH)
         self.Maximize(True)
         # Instanciamos el Objeto Funciones para trabajar Metodos Guardados
         self.functions = functions.Functions()
+        # User and Profile
+        self.user_operator = user_operator
+        self.user_profile = user_profile
 
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
         self.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW))
@@ -73,11 +74,6 @@ class MenuFrame(wx.Frame):
             self.m_hr, wx.ID_ANY, u"Cargo", wx.EmptyString, wx.ITEM_NORMAL
         )
         self.m_hr.Append(self.i_position)
-
-        self.i_user = wx.MenuItem(
-            self.m_hr, wx.ID_ANY, u"Usuario", wx.EmptyString, wx.ITEM_NORMAL
-        )
-        self.m_hr.Append(self.i_user)
 
         self.i_profile = wx.MenuItem(
             self.m_hr, wx.ID_ANY, u"Perfil", wx.EmptyString, wx.ITEM_NORMAL
@@ -130,11 +126,6 @@ class MenuFrame(wx.Frame):
         )
         self.m_supplies.Append(self.i_provider)
 
-        self.i_material = wx.MenuItem(
-            self.m_supplies, wx.ID_ANY, u"Material", wx.EmptyString, wx.ITEM_NORMAL
-        )
-        self.m_supplies.Append(self.i_material)
-
         self.i_supply = wx.MenuItem(
             self.m_supplies, wx.ID_ANY, u"Compra", wx.EmptyString, wx.ITEM_NORMAL
         )
@@ -145,11 +136,6 @@ class MenuFrame(wx.Frame):
             self.sm_r_supply, wx.ID_ANY, u"Compras", wx.EmptyString, wx.ITEM_NORMAL
         )
         self.sm_r_supply.Append(self.i_r_supply)
-
-        self.i_r_stock = wx.MenuItem(
-            self.sm_r_supply, wx.ID_ANY, u"Existencia", wx.EmptyString, wx.ITEM_NORMAL
-        )
-        self.sm_r_supply.Append(self.i_r_stock)
 
         self.i_r_provider = wx.MenuItem(
             self.sm_r_supply, wx.ID_ANY, u"Proveedores", wx.EmptyString, wx.ITEM_NORMAL
@@ -264,9 +250,13 @@ class MenuFrame(wx.Frame):
 
         self.Centre(wx.BOTH)
 
+        # Desactivar menus
+        self.on_desactivate_menu()
+
         # Activar menus
-        if user_profile > 0:
-            self.i_client
+        if user_profile == 1:
+            self.on_activate_menu()
+
         # Eventos
         self.Bind(wx.EVT_MENU, self.on_department, id=self.i_departament.GetId())
         self.Bind(wx.EVT_MENU, self.on_employee, id=self.i_employee.GetId())
@@ -286,7 +276,9 @@ class MenuFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_closed, id=self.i_exit.GetId())
 
     def on_department(self, evt):
-        self.clframe = department.DepartmentFrame(self)
+        self.clframe = department.DepartmentFrame(
+            self, self.user_operator, self.user_profile
+        )
         self.clframe.Show(True)
 
     def on_employee(self, evt):
@@ -360,6 +352,78 @@ class MenuFrame(wx.Frame):
     def on_warehouse(self, evt):
         self.clframe = warehouse.WarehouseFrame(self)
         self.clframe.Show(True)
+
+    def on_desactivate_menu(self):
+        # HR Menu
+        self.i_departament.Enable(False)
+        self.i_employee.Enable(False)
+        self.i_position.Enable(False)
+        self.i_profile.Enable(False)
+        self.i_section.Enable(False)
+        self.i_r_employee.Enable(False)
+
+        # Sales Menu
+        self.i_client.Enable(False)
+        self.i_sale.Enable(False)
+        self.i_tax.Enable(False)
+        self.i_r_sales.Enable(False)
+        self.i_r_client.Enable(False)
+
+        # Supplies Menu
+        self.i_provider.Enable(False)
+        self.i_supply.Enable(False)
+        self.i_r_supply.Enable(False)
+        self.i_r_provider.Enable(False)
+
+        # Warehousemng Menu
+        self.i_color.Enable(False)
+        self.i_line.Enable(False)
+        self.i_material.Enable(False)
+        self.i_office.Enable(False)
+        self.i_size.Enable(False)
+        self.i_subline.Enable(False)
+        self.i_typepro.Enable(False)
+        self.i_unitmt.Enable(False)
+        self.i_warehouse.Enable(False)
+        self.i_stock.Enable(False)
+        self.i_r_material.Enable(False)
+        self.i_r_stock.Enable(False)
+
+    def on_activate_menu(self):
+        # HR Menu
+        self.i_departament.Enable(True)
+        self.i_employee.Enable(True)
+        self.i_position.Enable(True)
+        self.i_profile.Enable(True)
+        self.i_section.Enable(True)
+        self.i_r_employee.Enable(True)
+
+        # Sales Menu
+        self.i_client.Enable(True)
+        self.i_sale.Enable(True)
+        self.i_tax.Enable(True)
+        self.i_r_sales.Enable(True)
+        self.i_r_client.Enable(True)
+
+        # Supplies Menu
+        self.i_provider.Enable(True)
+        self.i_supply.Enable(True)
+        self.i_r_supply.Enable(True)
+        self.i_r_provider.Enable(True)
+
+        # Warehousemng Menu
+        self.i_color.Enable(True)
+        self.i_line.Enable(True)
+        self.i_material.Enable(True)
+        self.i_office.Enable(True)
+        self.i_size.Enable(True)
+        self.i_subline.Enable(True)
+        self.i_typepro.Enable(True)
+        self.i_unitmt.Enable(True)
+        self.i_warehouse.Enable(True)
+        self.i_stock.Enable(True)
+        self.i_r_material.Enable(True)
+        self.i_r_stock.Enable(True)
 
     def on_closed(self, evt):
         self.Destroy()

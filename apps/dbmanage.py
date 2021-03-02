@@ -69,9 +69,28 @@ class Query(object):
         cursor = self.conn.cursor()
         sqluser = """select * from usuario where usuario = '%s';""" % (user)
         cursor.execute(sqluser)
-        result = cursor.fetchall()
+        result = cursor.fetchone()
         self.close_conect(cursor)
         return result
+
+    def select_department(self, department):
+        self.on_conect()
+        cursor = self.conn.cursor()
+        sqldepartment = """select * from departamento where id = %s;""" % (department)
+        cursor.execute(sqldepartment)
+        result = cursor.fetchone()
+        self.close_conect(cursor)
+        return result
+
+    def insert_department(self, department):
+        self.on_conect()
+        cursor = self.conn.cursor()
+        sqldepartment = """insert into departamento (descripcion) values ('%s');""" % (
+            department
+        )
+        cursor.execute(sqldepartment)
+        self.conn.commit()
+        self.close_conect(cursor)
 
     def __del__(self):
         pass

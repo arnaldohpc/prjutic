@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import wx
-import wx.xrc
 from apps import dbmanage, menu
 
 
@@ -19,6 +18,10 @@ class LoginFrame(wx.Frame):
             size=wx.Size(320, 148),
             style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL,
         )
+
+        # Instancias Objetos para trabajar con Metodos Guardados
+        self.dbmng = dbmanage.Query()
+        # self.functions = funtions.Functions()
 
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 
@@ -42,7 +45,7 @@ class LoginFrame(wx.Frame):
         )
 
         self.user = wx.TextCtrl(
-            self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0
+            self, -1, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0
         )
         self.user.SetMaxLength(0)
         fgSizer1.Add(
@@ -78,14 +81,16 @@ class LoginFrame(wx.Frame):
         self.btn_ok = wx.Button(
             self, wx.ID_ANY, u"Aceptar", wx.DefaultPosition, wx.DefaultSize, 0
         )
-        self.btn_ok.SetDefault()
-        self.btn_ok.Enable(True)
+        self.btn_ok.Enable(False)
 
         bSizer3.Add(self.btn_ok, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
 
         self.btn_cancel = wx.Button(
             self, wx.ID_ANY, u"Cancelar", wx.DefaultPosition, wx.DefaultSize, 0
         )
+        self.btn_cancel.Enable(True)
+        self.btn_cancel.SetDefault()
+
         bSizer3.Add(self.btn_cancel, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
 
         bSizer1.Add(bSizer3, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, 5)
@@ -95,20 +100,19 @@ class LoginFrame(wx.Frame):
 
         self.Centre(wx.BOTH)
 
-        # Instancias Objetos para trabajar con Metodos Guardados
-        self.dbmng = dbmanage.Query()
-        # self.functions = funtions.Functions()
         # Eventos
+        self.user.Bind(wx.EVT_KEY_DOWN, self.on_key_down)
+        self.pwd.Bind(wx.EVT_KEY_DOWN, self.on_key_down)
         self.btn_cancel.Bind(wx.EVT_BUTTON, self.click_cancel)
         self.btn_ok.Bind(wx.EVT_BUTTON, self.click_ok)
 
     def on_check_user(self, user):
         self.selectuser = self.dbmng.select_user(user)
         if self.selectuser:
-            if self.selectuser[0][5] is True and self.selectuser[0][4] is True:
-                if self.selectuser[0][2].strip() == self.pwd.GetValue():
+            if self.selectuser[5] is True and self.selectuser[4] is True:
+                if self.selectuser[2].strip() == self.pwd.GetValue():
                     self.frame = menu.MenuFrame(
-                        None, self.selectuser[0][1].strip(), self.selectuser[0][3]
+                        None, self.selectuser[1].strip(), self.selectuser[3]
                     )
                     self.Destroy()
                     self.frame.Show()
@@ -151,6 +155,16 @@ class LoginFrame(wx.Frame):
             self.user.SetValue("")
             self.pwd.SetValue("")
             self.user.SetFocus()
+
+    def on_key_down(self, evt):
+        if self.user.GetValue() == "":
+            self.user.SetFocus()
+        else:
+            if evt.GetKeyCode() == wx.WXK_TAB or evt.GetKeyCode() == wx.WXK_NUMPAD_ENTER:
+                self.pwd.SetFocus()
+                self.btn_ok.Enable(True)
+                self.btn_ok.SetDefault()
+        evt.Skip()
 
     def click_ok(self, evt):
         self.on_check_user(str(self.user.GetValue()))
