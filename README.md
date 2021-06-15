@@ -1,2 +1,2 @@
 # prjutic
-CRUD CRUD developed with wxpython
+CRUD developed with wxpython
